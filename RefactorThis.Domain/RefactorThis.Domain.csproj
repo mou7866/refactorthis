@@ -11,11 +11,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Aggregates\Product\Handlers\" />
-    <Folder Include="Aggregates\Product\Mappers\" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\RefactorThis.Infrastructure\RefactorThis.Infrastructure.csproj" />
   </ItemGroup>
   

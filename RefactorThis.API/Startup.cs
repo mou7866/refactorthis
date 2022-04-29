@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -9,10 +10,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RefactorThis.Data;
 using RefactorThis.Data.Repositories;
+using RefactorThis.Domain.Aggregates.Product.Mappers;
 using RefactorThis.Domain.Aggregates.Product.Services;
 using RefactorThis.Domain.Seedwork;
 using RefactorThis.Infrastructure.Repositories;
 using System;
+using System.Collections.Generic;
 
 namespace RefactorThis.API
 {
@@ -41,6 +44,16 @@ namespace RefactorThis.API
             services.AddValidatorsFromAssembly(domainAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient<IProductService, ProductService>();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfiles(new List<Profile>
+                {
+                    new ProductProfile()
+                });
+            });
+
+            services.AddSingleton(mappingConfig.CreateMapper());
 
             services
                 .AddDbContext<RefactorThisDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "InMemoryDb")

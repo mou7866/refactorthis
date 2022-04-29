@@ -15,4 +15,8 @@
     <Folder Include="Aggregates\Product\Mappers\" />
   </ItemGroup>
   
+  <ItemGroup>
+    <ProjectReference Include="..\RefactorThis.Infrastructure\RefactorThis.Infrastructure.csproj" />
+  </ItemGroup>
+  
 </Project>

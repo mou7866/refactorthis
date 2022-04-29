@@ -10,9 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8D35B23D-6
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.API", "RefactorThis.API\RefactorThis.API.csproj", "{8184B2FE-1B9E-4177-A997-1E016AAF4A14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RefactorThis.API", "RefactorThis.API\RefactorThis.API.csproj", "{8184B2FE-1B9E-4177-A997-1E016AAF4A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.Domain", "RefactorThis.Domain\RefactorThis.Domain.csproj", "{DF28CB21-6B5E-4016-A177-46FB995C75E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RefactorThis.Domain", "RefactorThis.Domain\RefactorThis.Domain.csproj", "{DF28CB21-6B5E-4016-A177-46FB995C75E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.Infrastructure", "RefactorThis.Infrastructure\RefactorThis.Infrastructure.csproj", "{633E8CA4-CD52-45F1-A18C-41C8A2CFEF72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{DF28CB21-6B5E-4016-A177-46FB995C75E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF28CB21-6B5E-4016-A177-46FB995C75E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF28CB21-6B5E-4016-A177-46FB995C75E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{633E8CA4-CD52-45F1-A18C-41C8A2CFEF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633E8CA4-CD52-45F1-A18C-41C8A2CFEF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633E8CA4-CD52-45F1-A18C-41C8A2CFEF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633E8CA4-CD52-45F1-A18C-41C8A2CFEF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

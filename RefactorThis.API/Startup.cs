@@ -2,10 +2,16 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RefactorThis.Data;
+using RefactorThis.Data.Repositories;
+using RefactorThis.Domain.Aggregates.Product.Services;
+using RefactorThis.Domain.Seedwork;
+using RefactorThis.Infrastructure.Repositories;
 using System;
 
 namespace RefactorThis.API
@@ -33,6 +39,17 @@ namespace RefactorThis.API
 
             services.AddMediatR(domainAssembly);
             services.AddValidatorsFromAssembly(domainAssembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient<IProductService, ProductService>();
+
+            services
+                .AddDbContext<RefactorThisDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "InMemoryDb")
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .EnableSensitiveDataLogging());
+
+            services.AddTransient<IUnitOfWork, UnitOfWork<RefactorThisDbContext>>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductOptionRepository, ProductOptionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

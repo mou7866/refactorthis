@@ -16,12 +16,14 @@ namespace RefactorThis.Domain.Aggregates.Product.Services
     public class ProductService : IProductService
     {
         public IProductRepository ProductRepository { get; init; }
+        public IProductOptionRepository ProductOptionRepository { get; init; }
         public IMapper Mapper { get; init; }
         public IUnitOfWork UnitOfWork { get; init; }
 
         public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             ProductRepository = unitOfWork.GetRepository<IProductRepository>();
+            ProductOptionRepository = unitOfWork.GetRepository<IProductOptionRepository>();
             Mapper = mapper;
             UnitOfWork = unitOfWork;
         }
@@ -74,7 +76,7 @@ namespace RefactorThis.Domain.Aggregates.Product.Services
         {
             var product = await ProductRepository.Get(x => x.Id == request.Id);
 
-            if (product is null)
+            if (product is null || !product.Any())
             {
                 return new()
                 {
@@ -100,7 +102,7 @@ namespace RefactorThis.Domain.Aggregates.Product.Services
         {
             var product = await ProductRepository.Get(x => x.Id == request.Id);
 
-            if (product is null)
+            if (product is null || !product.Any())
             {
                 return new()
                 {
@@ -122,7 +124,134 @@ namespace RefactorThis.Domain.Aggregates.Product.Services
                 await ProductRepository.Update(productToUpdate);
                 await UnitOfWork.Commit();
 
+            }
+
+            return new();
+        }
+
+        public async Task<GetProductOptionsByProductIdResponse> GetAllProductOptions(GetProductOptionsByProductIdQuery request)
+        {
+            var productOptions = await ProductOptionRepository.Get(x => x.ProductId == request.Id);
+            return new GetProductOptionsByProductIdResponse()
+            {
+                Data = new()
+                {
+                    Items = Mapper.Map<List<ProductOptionModel>>(productOptions)
+                }
+            };
+        }
+
+        public async Task<CreateProductOptionResponse> CreateProductOption(CreateProductOptionCommand request)
+        {
+            var product = await ProductRepository.Get(x => x.Id == request.ProductId);
+
+            if (product is null || !product.Any())
+            {
+                return new()
+                {
+                    Errors = new()
+                    {
+                        new()
+                        {
+                            Code = "not_found",
+                            Message = "Product not found",
+                            Type = Seedwork.ResponseType.FAILURE
+                        }
+                    }
+                };
+            }
+            else
+            {
+                await ProductOptionRepository.Add(Mapper.Map<ProductOptionEntity>(request));
+                await UnitOfWork.Commit();
+
+            }
+
+            return new();
+        }
+
+        public async Task<GetProductOptionsByProductIdAndIdResponse> GetProductOptionByProductIdAndId(GetProductOptionsByProductIdAndIdQuery request)
+        {
+            var productOptions = await ProductOptionRepository.Get(x => x.ProductId == request.ProductId && x.Id == request.Id);
+
+            if (productOptions is null || !productOptions.Any())
+            {
+                return new()
+                {
+                    Errors = new()
+                    {
+                        new()
+                        {
+                            Code = "not_found",
+                            Message = "Product option not found",
+                            Type = Seedwork.ResponseType.FAILURE
+                        }
+                    }
+                };
+            }
+            else
+            {
+                var productOption = productOptions.First();
+                return new GetProductOptionsByProductIdAndIdResponse()
+                {
+                    Data = Mapper.Map<ProductOptionModel>(productOption)
+                };
             }            
+        }
+
+        public async Task<UpdateProductOptionResponse> UpdateProductOption(UpdateProductOptionCommand request)
+        {
+            var productOption = await ProductOptionRepository.Get(x => x.Id == request.Id && x.ProductId == request.ProductId);
+
+            if (productOption is null || !productOption.Any())
+            {
+                return new()
+                {
+                    Errors = new()
+                    {
+                        new()
+                        {
+                            Code = "not_found",
+                            Message = "Product Option not found",
+                            Type = Seedwork.ResponseType.FAILURE
+                        }
+                    }
+                };
+            }
+
+            await ProductOptionRepository.Update(Mapper.Map<ProductOptionEntity>(request));
+            await UnitOfWork.Commit();
+
+            return new();
+        }
+
+        public async Task<DeleteProductOptionResponse> DeleteProductOption(DeleteProductOptionCommand request)
+        {
+            var productOption = await ProductOptionRepository.Get(x => x.Id == request.Id && x.ProductId == request.ProductId);
+
+            if (productOption is null || !productOption.Any())
+            {
+                return new()
+                {
+                    Errors = new()
+                    {
+                        new()
+                        {
+                            Code = "not_found",
+                            Message = "Product option not found",
+                            Type = Seedwork.ResponseType.FAILURE
+                        }
+                    }
+                };
+            }
+            else
+            {
+                var productToUpdate = productOption.First();
+                productToUpdate.IsActive = false;
+                await ProductOptionRepository.Update(productToUpdate);
+                await UnitOfWork.Commit();
+
+            }
 
             return new();
         }

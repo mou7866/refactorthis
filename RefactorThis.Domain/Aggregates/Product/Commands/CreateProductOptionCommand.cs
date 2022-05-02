@@ -1,9 +1,11 @@
-﻿using RefactorThis.Domain.Product.Models;
+﻿using MediatR;
+using RefactorThis.Domain.Aggregates.Product.Reponses;
+using RefactorThis.Domain.Product.Models;
 using System;
 
 namespace RefactorThis.Domain.Aggregates.Product.Commands
 {
-    public class CreateProductOptionCommand
+    public class CreateProductOptionCommand : IRequest<CreateProductOptionResponse>
     {
         public CreateProductOptionCommand(Guid productId, ProductOptionModel option)
         {

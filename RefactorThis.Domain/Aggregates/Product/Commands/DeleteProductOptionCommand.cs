@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MediatR;
+using RefactorThis.Domain.Aggregates.Product.Reponses;
+using System;
 
 namespace RefactorThis.Domain.Aggregates.Product.Commands
 {
-    public class DeleteProductOptionCommand
+    public class DeleteProductOptionCommand : IRequest<DeleteProductOptionResponse>
     {
         public DeleteProductOptionCommand(Guid productId, Guid id)
         {

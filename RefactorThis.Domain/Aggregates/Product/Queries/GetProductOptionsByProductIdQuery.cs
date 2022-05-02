@@ -4,7 +4,7 @@ using System;
 
 namespace RefactorThis.Domain.Aggregates.Product.Queries
 {
-    public class GetProductOptionsByProductIdQuery : IRequest<GetProductByIdResponse>
+    public class GetProductOptionsByProductIdQuery : IRequest<GetProductOptionsByProductIdResponse>
     {
         public GetProductOptionsByProductIdQuery(Guid id)
         {

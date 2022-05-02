@@ -13,6 +13,10 @@ namespace RefactorThis.Domain.Aggregates.Product.Mappers
             MapGetAllProducts();
             MapUpdateProduct();
             MapDeleteProduct();
+
+            MapGetAllProductOptions();
+            MapCreateProductOption();
+            MapUpdateProductOption();
         }
 
         public void MapCreateProduct()
@@ -42,6 +46,31 @@ namespace RefactorThis.Domain.Aggregates.Product.Mappers
             CreateMap<DeleteProductCommand, ProductEntity>()
                 .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id))
                 .ForMember(dest => dest.IsActive, src => src.MapFrom(x => false));
+        }
+
+        public void MapGetAllProductOptions()
+        {
+            CreateMap<ProductOptionEntity, ProductOptionModel>();
+        }
+
+        public void MapCreateProductOption()
+        {
+            CreateMap<CreateProductOptionCommand, ProductOptionEntity>()
+                .ForMember(dest => dest.Id, src => src.Ignore())
+                .ForMember(dest => dest.IsActive, src => src.MapFrom(x => true))
+                .ForMember(dest => dest.Description, src => src.MapFrom(x => x.Option.Description))
+                .ForMember(dest => dest.Name, src => src.MapFrom(x => x.Option.Name))
+                .ForMember(dest => dest.ProductId, src => src.MapFrom(x => x.ProductId));
+        }
+
+        public void MapUpdateProductOption()
+        {
+            CreateMap<UpdateProductOptionCommand, ProductOptionEntity>()
+                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id))
+                .ForMember(dest => dest.Description, src => src.MapFrom(x => x.Option.Description))
+                .ForMember(dest => dest.Name, src => src.MapFrom(x => x.Option.Name))
+                .ForMember(dest => dest.IsActive, src => src.MapFrom(x => true))
+                .ForMember(dest => dest.ProductId, src => src.MapFrom(x => x.ProductId));
         }
     }
 }

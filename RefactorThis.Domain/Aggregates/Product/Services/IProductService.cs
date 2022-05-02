@@ -14,5 +14,10 @@ namespace RefactorThis.Domain.Aggregates.Product.Services
         Task<GetProductByIdResponse> GetProductById(GetProductByIdQuery request);
         Task<UpdateProductResponse> UpdateProduct(UpdateProductCommand request);
         Task<DeleteProductResponse> DeleteProduct(DeleteProductCommand request);
+        Task<DeleteProductOptionResponse> DeleteProductOption(DeleteProductOptionCommand request);
+        Task<UpdateProductOptionResponse> UpdateProductOption(UpdateProductOptionCommand request);
+        Task<GetProductOptionsByProductIdResponse> GetAllProductOptions(GetProductOptionsByProductIdQuery request);
+        Task<GetProductOptionsByProductIdAndIdResponse> GetProductOptionByProductIdAndId(GetProductOptionsByProductIdAndIdQuery request);
+        Task<CreateProductOptionResponse> CreateProductOption(CreateProductOptionCommand request);
     }
 }

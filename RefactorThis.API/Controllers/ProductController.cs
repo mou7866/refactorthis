@@ -68,9 +68,9 @@ namespace RefactorThis.API.Controllers
 
         [Route("{productId}/options/{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetOption(Guid productId, Guid id)
+        public async Task<IActionResult> GetOptionById(Guid productId, Guid id)
         {
-            return Ok(await Mediator.Send(new GetProductOptionsByProductIdQuery(productId)));
+            return Ok(await Mediator.Send(new GetProductOptionsByProductIdAndIdQuery(productId, id)));
         }
 
         [Route("{productId}/options")]

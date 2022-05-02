@@ -13,5 +13,7 @@ namespace RefactorThis.Domain.Product.Models
         public decimal Price { get; set; }
 
         public decimal DeliveryPrice { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
